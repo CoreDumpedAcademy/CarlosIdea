@@ -1,0 +1,7 @@
+{
+  "name": "redCore",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

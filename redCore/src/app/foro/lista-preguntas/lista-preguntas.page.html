@@ -1,0 +1,65 @@
+<ion-header *ngIf="hasLoaded">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      {{foro.title}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="hasLoaded">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-col padding>
+      <blockquote text-center style="size: 72px">{{foro.description}}</blockquote>
+      <ion-item></ion-item>
+   </ion-col>
+  </ion-grid>
+  <ion-card *ngFor="let pregunta of foro.preguntas.slice().reverse(); index as i" padding>
+    <ion-item>
+      <ion-col>
+        <ion-avatar>
+          <img src="http://fridge.coredumped.es/{{pregunta.user.picture}}">
+        </ion-avatar>
+      </ion-col>
+      <ion-col> @{{pregunta.user.username}}</ion-col>
+        <ion-col>
+          <ion-chip outline="true" *ngIf="pregunta.respuestas && pregunta.respuestas.length; else noHayRespuestas" (click)="presentPopover( $event, i )">
+            <ion-avatar>
+              <img src="http://fridge.coredumped.es/{{pregunta.respuestas[pregunta.respuestas.length - 1].user.picture}}">
+            </ion-avatar>
+            <ion-label>{{pregunta.respuestas[pregunta.respuestas.length - 1].published}}</ion-label>
+          </ion-chip>
+          <ng-template #noHayRespuestas>
+            <ion-chip (click)="presentPopover( $event, i )" outline="true" color="primary">
+              <ion-label>{{pregunta.published}}</ion-label>
+            </ion-chip>
+          </ng-template>
+        </ion-col>
+      </ion-item>
+      <h1 text-center>{{pregunta.title}}</h1>
+      <p text-center>{{pregunta.text}}</p>
+      <ion-button expand="block" fill="outline" (click)="goToQuestion(i)">VER HILO</ion-button>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="settings"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button *ngIf="isAMember" color="primary" (click)="post()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="isAMember" color="danger" (click)="unsubscribe()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="!isAMember" (click)="subscribe()">
+        <ion-icon name="log-in"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
