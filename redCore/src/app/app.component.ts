@@ -35,6 +35,7 @@ export class AppComponent {
   selectedPath = '';
   picture: string;
   username: string;
+  hasLoaded = false;
 
   constructor(
     private platform: Platform,
