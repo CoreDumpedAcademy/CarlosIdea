@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // Conexión a la base de datos y en el puerto 3000
 
-mongoose.connect('mongodb://localhost/Usuarios', { useNewUrlParser: true }, (err, res) =>{
+mongoose.connect('mongodb://localhost/Hackaton', { useNewUrlParser: true }, (err, res) =>{
     if(err){
         return console.log(`ERROR AL CONECTAR A LA BASE DE DATOS ${err}`.red)
     }
